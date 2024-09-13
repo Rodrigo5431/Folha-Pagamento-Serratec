@@ -2,10 +2,27 @@ package br.com.project.entity;
 
 import java.time.LocalDate;
 
-public class Pessoa {
+public abstract class Pessoa {
 
-	protected String nome, cpf;
-	protected LocalDate dataNascimento;
-	
-	
+	private String nome;
+	private String cpf;
+	private LocalDate dataNascimento;
+
+	public Pessoa(String nome, String cpf, LocalDate dataNascimento) {
+		this.nome = nome;
+		this.cpf = cpf;
+		this.dataNascimento = dataNascimento;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
 }
