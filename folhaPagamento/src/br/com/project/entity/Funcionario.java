@@ -7,13 +7,9 @@ public class Funcionario extends Pessoa {
 	private double descontoInss;
 	private double descontoIR;
 
-	public Funcionario(String nome, String cpf, LocalDate dataNascimento, double salarioBruto, double descontoInss,
-			double descontoIR) {
+	public Funcionario(String nome, String cpf, LocalDate dataNascimento, double salarioBruto) {
 		super(nome, cpf, dataNascimento);
-
 		this.salarioBruto = salarioBruto;
-		this.descontoInss = descontoInss;
-		this.descontoIR = descontoIR;
 
 	}
 
@@ -23,22 +19,6 @@ public class Funcionario extends Pessoa {
 
 	public void setSalarioBruto(double salarioBruto) {
 		this.salarioBruto = salarioBruto;
-	}
-
-	public double getDescontoInss() {
-		return descontoInss;
-	}
-
-	public void setDescontoInss(double descontoInss) {
-		this.descontoInss = descontoInss;
-	}
-
-	public double getDescontoIR() {
-		return descontoIR;
-	}
-
-	public void setDescontoIR(double descontoIR) {
-		this.descontoIR = descontoIR;
 	}
 
 }
