@@ -58,21 +58,26 @@ public class SystemMenu {
 
 						if (dadosParentesco[3].equalsIgnoreCase("outro")) {
 							parente = Parentesco.OUTRO;
-							dependentes.add(new Dependente(nomeD, cpfD, dataNascimentoD, parente));
+							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
+							dependentes.add(dependente);
+							funcionario.setDependente(dependente);
 							linha = scanner.nextLine();
 
 						} else if (dadosParentesco[3].equalsIgnoreCase("filho")) {
 							parente = Parentesco.FILHO;
-							dependentes.add(new Dependente(nomeD, cpfD, dataNascimentoD, parente));
+							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
+							dependentes.add(dependente);
+							funcionario.setDependente(dependente);
 							linha = scanner.nextLine();
 
 						} else if (dadosParentesco[3].equalsIgnoreCase("sobrinho")) {
 							parente = Parentesco.SOBRINHO;
-							dependentes.add(new Dependente(nomeD, cpfD, dataNascimentoD, parente));
+							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
+							dependentes.add(dependente);
+							funcionario.setDependente(dependente);
 							linha = scanner.nextLine();
-
 						}
-						
+
 					}
 
 				}
@@ -80,9 +85,13 @@ public class SystemMenu {
 			}
 
 			for (Funcionario f : funcionarios) {
-
-				System.out.println(
-						f.getNome() + ";" + f.getCpf() + ";" + f.getDataNascimento() + ";" + f.getSalarioBruto());
+				if (f.getDependente() == null) {
+					System.out.println(f.getNome() + ";" + f.getCpf() + ";" + f.getDataNascimento() + ";"
+							+ f.getSalarioBruto() + ";" + "Sem dependente");
+				} else {
+					System.out.println(f.getNome() + ";" + f.getCpf() + ";" + f.getDataNascimento() + ";"
+							+ f.getSalarioBruto() + ";" + f.getDependente().getNome());
+				}
 			}
 			System.out.println("");
 
