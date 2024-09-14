@@ -2,7 +2,7 @@ package br.com.project.enums;
 
 public enum Parentesco {
 
-	FILHO("filho"), SOBRINHO("sobrinho"), OUTRO(""), NENHUM("nenhum");
+	FILHO("filho"), SOBRINHO("sobrinho"), OUTRO("outro"), NENHUM("nenhum");
 
 	private String nome;
 

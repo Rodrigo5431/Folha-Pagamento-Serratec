@@ -28,7 +28,7 @@ public class SystemMenu {
 			// /home/administrador/poo/Folha-Pagamento-Serratec/folhaPagamento/src/br/com/project/csv/
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-			do {
+			while (scanner.hasNext()) {
 				String linha = scanner.nextLine();
 				// System.out.println(linha);
 
@@ -39,36 +39,38 @@ public class SystemMenu {
 					String dataNascimentoString = dadosLinha[2];
 					String salarioString = dadosLinha[3];
 
-					while (!linha.isEmpty()) {
+					LocalDate dataNascimento = LocalDate.parse(dataNascimentoString, formatter);
+					Double salario = Double.parseDouble(salarioString);
+					Funcionario funcionario = new Funcionario(nome, cpf, dataNascimento, salario);
+					funcionarios.add(funcionario);
+
+						
+						linha = scanner.nextLine();
 						String[] dadosParentesco = linha.split(";");
-						String nomeD = dadosLinha[0];
-						String cpfD = dadosLinha[1];
-						String dataNascimentoDString = dadosLinha[2];
+						String nomeD = dadosParentesco[0];
+						String cpfD = dadosParentesco[1];
+						String dataNascimentoDString = dadosParentesco[2];
 						LocalDate dataNascimentoD = LocalDate.parse(dataNascimentoDString, formatter);
 
-						if (dadosLinha[3].toLowerCase() == "outro") {
+						if (dadosParentesco[3].equalsIgnoreCase("outro")) {
 							parente = Parentesco.OUTRO;
 
 							dependentes.add(new Dependente(nomeD, cpfD, dataNascimentoD, parente));
 
-						} else if (dadosLinha[3].toLowerCase() == "filho") {
+						} else if (dadosParentesco[3].equalsIgnoreCase("filho")) {
 							parente = Parentesco.FILHO;
 							dependentes.add(new Dependente(nomeD, cpfD, dataNascimentoD, parente));
 
-						} else if (dadosLinha[3].toLowerCase() == "sobrinho") {
+						} else if (dadosParentesco[3].equalsIgnoreCase("sobrinho")) {
 							parente = Parentesco.SOBRINHO;
 							dependentes.add(new Dependente(nomeD, cpfD, dataNascimentoD, parente));
 
 						}
 						
-					}
-
-					LocalDate dataNascimento = LocalDate.parse(dataNascimentoString, formatter);
-					Double salario = Double.parseDouble(salarioString);
-
-					funcionarios.add(new Funcionario(nome, cpf, dataNascimento, salario));
+					
 				}
-			} while (scanner.hasNext());
+
+			}
 
 			for (Funcionario f : funcionarios) {
 
