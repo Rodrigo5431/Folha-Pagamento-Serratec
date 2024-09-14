@@ -25,7 +25,7 @@ public class SystemMenu {
 			List<Funcionario> funcionarios = new ArrayList<>();
 			List<Dependente> dependentes = new ArrayList<>();
 			// src./br/com/project/csv/Funcionario.csv
-			// /home/administrador/poo/Folha-Pagamento-Serratec/folhaPagamento/src/br/com/project/csv/
+			// /home/administrador/poo/Folha-Pagamento-Serratec/folhaPagamento/src/br/com/project/csv/Funcionario.csv
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 			while (scanner.hasNext()) {
@@ -43,13 +43,13 @@ public class SystemMenu {
 					Double salario = Double.parseDouble(salarioString);
 					Funcionario funcionario = new Funcionario(nome, cpf, dataNascimento, salario);
 					funcionarios.add(funcionario);
+					linha = scanner.nextLine();
 
 					while (!linha.isEmpty()) {
-						linha = scanner.nextLine();
 						if (linha.isEmpty()) {
 							break;
 						}
-						// linha = scanner.nextLine();
+
 						String[] dadosParentesco = linha.split(";");
 						String nomeD = dadosParentesco[0];
 						String cpfD = dadosParentesco[1];
@@ -72,6 +72,7 @@ public class SystemMenu {
 							linha = scanner.nextLine();
 
 						}
+						
 					}
 
 				}
