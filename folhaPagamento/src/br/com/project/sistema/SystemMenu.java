@@ -44,8 +44,12 @@ public class SystemMenu {
 					Funcionario funcionario = new Funcionario(nome, cpf, dataNascimento, salario);
 					funcionarios.add(funcionario);
 
-						
+					while (!linha.isEmpty()) {
 						linha = scanner.nextLine();
+						if (linha.isEmpty()) {
+							break;
+						}
+						// linha = scanner.nextLine();
 						String[] dadosParentesco = linha.split(";");
 						String nomeD = dadosParentesco[0];
 						String cpfD = dadosParentesco[1];
@@ -54,20 +58,22 @@ public class SystemMenu {
 
 						if (dadosParentesco[3].equalsIgnoreCase("outro")) {
 							parente = Parentesco.OUTRO;
-
 							dependentes.add(new Dependente(nomeD, cpfD, dataNascimentoD, parente));
+							linha = scanner.nextLine();
 
 						} else if (dadosParentesco[3].equalsIgnoreCase("filho")) {
 							parente = Parentesco.FILHO;
 							dependentes.add(new Dependente(nomeD, cpfD, dataNascimentoD, parente));
+							linha = scanner.nextLine();
 
 						} else if (dadosParentesco[3].equalsIgnoreCase("sobrinho")) {
 							parente = Parentesco.SOBRINHO;
 							dependentes.add(new Dependente(nomeD, cpfD, dataNascimentoD, parente));
+							linha = scanner.nextLine();
 
 						}
-						
-					
+					}
+
 				}
 
 			}
@@ -76,6 +82,12 @@ public class SystemMenu {
 
 				System.out.println(
 						f.getNome() + ";" + f.getCpf() + ";" + f.getDataNascimento() + ";" + f.getSalarioBruto());
+			}
+			System.out.println("");
+
+			for (Dependente d : dependentes) {
+				System.out.println(
+						d.getNome() + ";" + d.getCpf() + ";" + d.getDataNascimento() + ";" + d.getParentesco());
 			}
 
 			scanner.close();

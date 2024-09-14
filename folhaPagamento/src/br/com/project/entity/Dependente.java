@@ -22,5 +22,6 @@ public class Dependente extends Pessoa {
 	public void setParentesco(Parentesco parentesco) {
 		this.parentesco = parentesco;
 	}
+	
 
 }
