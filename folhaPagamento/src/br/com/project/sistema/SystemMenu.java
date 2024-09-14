@@ -12,7 +12,6 @@ import br.com.project.entity.Dependente;
 import br.com.project.entity.Funcionario;
 import br.com.project.enums.Parentesco;
 
-
 public class SystemMenu {
 
 	public static void main(String[] args) {
@@ -25,7 +24,8 @@ public class SystemMenu {
 			Parentesco parente = Parentesco.NENHUM;
 			List<Funcionario> funcionarios = new ArrayList<>();
 			List<Dependente> dependentes = new ArrayList<>();
-			// "src./br/com/project/csv/Funcionario.csv"
+			// src./br/com/project/csv/Funcionario.csv
+			// /home/administrador/poo/Folha-Pagamento-Serratec/folhaPagamento/src/br/com/project/csv/
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 			do {
@@ -44,25 +44,22 @@ public class SystemMenu {
 						String nomeD = dadosLinha[0];
 						String cpfD = dadosLinha[1];
 						String dataNascimentoDString = dadosLinha[2];
-						LocalDate dataNascimentoD = LocalDate.parse(dataNascimentoString, formatter);
+						LocalDate dataNascimentoD = LocalDate.parse(dataNascimentoDString, formatter);
 
 						if (dadosLinha[3].toLowerCase() == "outro") {
 							parente = Parentesco.OUTRO;
-							
+
 							dependentes.add(new Dependente(nomeD, cpfD, dataNascimentoD, parente));
-							
-						}
-						else if (dadosLinha[3].toLowerCase() == "filho") {
+
+						} else if (dadosLinha[3].toLowerCase() == "filho") {
 							parente = Parentesco.FILHO;
 							dependentes.add(new Dependente(nomeD, cpfD, dataNascimentoD, parente));
-							
-						}
-						else if (dadosLinha[3].toLowerCase() == "sobrinho") {
+
+						} else if (dadosLinha[3].toLowerCase() == "sobrinho") {
 							parente = Parentesco.SOBRINHO;
 							dependentes.add(new Dependente(nomeD, cpfD, dataNascimentoD, parente));
-				
+
 						}
-						
 						
 					}
 
@@ -84,6 +81,5 @@ public class SystemMenu {
 		} catch (FileNotFoundException e) {
 			System.err.println("Arquivo nao encontrado");
 		}
-
 	}
 }
