@@ -12,7 +12,6 @@ import br.com.project.entity.Dependente;
 import br.com.project.entity.Funcionario;
 import br.com.project.enums.Parentesco;
 
-
 public class SystemMenu {
 
 	public static void main(String[] args) {
@@ -25,12 +24,12 @@ public class SystemMenu {
 			Parentesco parente = Parentesco.NENHUM;
 			List<Funcionario> funcionarios = new ArrayList<>();
 			List<Dependente> dependentes = new ArrayList<>();
-			// "src./br/com/project/csv/Funcionario.csv"
+			// src./br/com/project/csv/Funcionario.csv
+			// /home/administrador/poo/Folha-Pagamento-Serratec/folhaPagamento/src/br/com/project/csv/Funcionario.csv
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-			do {
+			while (scanner.hasNext()) {
 				String linha = scanner.nextLine();
-				// System.out.println(linha);
 
 				if (!linha.isEmpty()) {
 					String[] dadosLinha = linha.split(";");
@@ -39,44 +38,66 @@ public class SystemMenu {
 					String dataNascimentoString = dadosLinha[2];
 					String salarioString = dadosLinha[3];
 
-					while (!linha.isEmpty()) {
-						String[] dadosParentesco = linha.split(";");
-						String nomeD = dadosLinha[0];
-						String cpfD = dadosLinha[1];
-						String dataNascimentoDString = dadosLinha[2];
-						LocalDate dataNascimentoD = LocalDate.parse(dataNascimentoString, formatter);
-
-						if (dadosLinha[3].toLowerCase() == "outro") {
-							parente = Parentesco.OUTRO;
-							
-							dependentes.add(new Dependente(nomeD, cpfD, dataNascimentoD, parente));
-							
-						}
-						else if (dadosLinha[3].toLowerCase() == "filho") {
-							parente = Parentesco.FILHO;
-							dependentes.add(new Dependente(nomeD, cpfD, dataNascimentoD, parente));
-							
-						}
-						else if (dadosLinha[3].toLowerCase() == "sobrinho") {
-							parente = Parentesco.SOBRINHO;
-							dependentes.add(new Dependente(nomeD, cpfD, dataNascimentoD, parente));
-				
-						}
-						
-						
-					}
-
 					LocalDate dataNascimento = LocalDate.parse(dataNascimentoString, formatter);
 					Double salario = Double.parseDouble(salarioString);
+					Funcionario funcionario = new Funcionario(nome, cpf, dataNascimento, salario);
+					funcionarios.add(funcionario);
+					linha = scanner.nextLine();
 
-					funcionarios.add(new Funcionario(nome, cpf, dataNascimento, salario));
+					while (!linha.isEmpty()) {
+						if (linha.isEmpty()) {
+							break;
+						}
+
+						String[] dadosParentesco = linha.split(";");
+						String nomeD = dadosParentesco[0];
+						String cpfD = dadosParentesco[1];
+						String dataNascimentoDString = dadosParentesco[2];
+						LocalDate dataNascimentoD = LocalDate.parse(dataNascimentoDString, formatter);
+
+						if (dadosParentesco[3].equalsIgnoreCase("outro")) {
+							parente = Parentesco.OUTRO;
+							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
+							dependentes.add(dependente);
+							funcionario.setDependente(dependente);
+							linha = scanner.nextLine();
+
+						} else if (dadosParentesco[3].equalsIgnoreCase("filho")) {
+							parente = Parentesco.FILHO;
+							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
+							dependentes.add(dependente);
+							funcionario.setDependente(dependente);
+							linha = scanner.nextLine();
+
+						} else if (dadosParentesco[3].equalsIgnoreCase("sobrinho")) {
+							parente = Parentesco.SOBRINHO;
+							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
+							dependentes.add(dependente);
+							funcionario.setDependente(dependente);
+							linha = scanner.nextLine();
+						}
+
+					}
+
 				}
-			} while (scanner.hasNext());
+
+			}
+			System.out.println(dependentes.size());
 
 			for (Funcionario f : funcionarios) {
+				if (f.getDependente() == null) {
+					System.out.println(f.getNome() + ";" + f.getCpf() + ";" + f.getDataNascimento() + ";"
+							+ f.getSalarioBruto() + ";" + "Sem dependente");
+				} else {
+					System.out.println(f.getNome() + ";" + f.getCpf() + ";" + f.getDataNascimento() + ";"
+							+ f.getSalarioBruto() + ";" + f.getDependente().getNome());
+				}
+			}
+			System.out.println("");
 
+			for (Dependente d : dependentes) {
 				System.out.println(
-						f.getNome() + ";" + f.getCpf() + ";" + f.getDataNascimento() + ";" + f.getSalarioBruto());
+						d.getNome() + ";" + d.getCpf() + ";" + d.getDataNascimento() + ";" + d.getParentesco());
 			}
 
 			scanner.close();
@@ -84,6 +105,5 @@ public class SystemMenu {
 		} catch (FileNotFoundException e) {
 			System.err.println("Arquivo nao encontrado");
 		}
-
 	}
 }
