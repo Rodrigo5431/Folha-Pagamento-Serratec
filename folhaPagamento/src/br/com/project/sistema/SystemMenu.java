@@ -30,7 +30,6 @@ public class SystemMenu {
 
 			while (scanner.hasNext()) {
 				String linha = scanner.nextLine();
-				// System.out.println(linha);
 
 				if (!linha.isEmpty()) {
 					String[] dadosLinha = linha.split(";");
@@ -83,6 +82,7 @@ public class SystemMenu {
 				}
 
 			}
+			System.out.println(dependentes.size());
 
 			for (Funcionario f : funcionarios) {
 				if (f.getDependente() == null) {
