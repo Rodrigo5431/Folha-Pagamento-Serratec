@@ -19,6 +19,4 @@ public enum Inss {
 	}
 	
 		
-
-		
 }
