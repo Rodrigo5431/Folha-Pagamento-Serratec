@@ -6,6 +6,8 @@ public enum Ir {
 	
 	private double valor;
 	
+	static Ir DEFAULT = IR;
+	
 	Ir(double valor){
 		this.valor = valor;
 	}
@@ -16,6 +18,14 @@ public enum Ir {
 
 	public void setValor(double valor) {
 		this.valor = valor;
+	}
+
+	public static Ir getDEFAULT() {
+		return DEFAULT;
+	}
+
+	public static void setDEFAULT(Ir dEFAULT) {
+		DEFAULT = dEFAULT;
 	}
 
 	

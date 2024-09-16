@@ -13,6 +13,15 @@ public abstract class Pessoa {
 		this.cpf = cpf;
 		this.dataNascimento = dataNascimento;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return nome + ";"+ cpf+ ";" + dataNascimento + ";";
+	}
+
+
 
 	public String getNome() {
 		return nome;
@@ -25,4 +34,5 @@ public abstract class Pessoa {
 	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
+	
 }
