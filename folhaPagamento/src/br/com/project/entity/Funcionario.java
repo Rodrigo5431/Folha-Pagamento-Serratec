@@ -2,13 +2,16 @@ package br.com.project.entity;
 
 import java.time.LocalDate;
 
+import br.com.project.exception.DependenteException;
+
 public class Funcionario extends Pessoa {
 	private double salarioBruto;
 	private double descontoInss;
 	private double descontoIR;
 	private Dependente dependente;
 
-	public Funcionario(String nome, String cpf, LocalDate dataNascimento, double salarioBruto) {
+	public Funcionario(String nome, String cpf, LocalDate dataNascimento, double salarioBruto)
+			throws DependenteException {
 		super(nome, cpf, dataNascimento);
 		this.salarioBruto = salarioBruto;
 

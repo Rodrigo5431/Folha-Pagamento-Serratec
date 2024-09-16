@@ -15,10 +15,10 @@ import br.com.project.entity.Dependente;
 import br.com.project.entity.Funcionario;
 import br.com.project.enums.Ir;
 import br.com.project.enums.Parentesco;
+import br.com.project.exception.DependenteException;
 import br.com.project.interfaces.Imposto;
 
-public class FuncionarioServices implements Imposto{
-	
+public class FuncionarioServices implements Imposto {
 
 	public void leitor() {
 		try {
@@ -48,7 +48,6 @@ public class FuncionarioServices implements Imposto{
 					Funcionario funcionario = new Funcionario(nome, cpf, dataNascimento, salario);
 					funcionarios.add(funcionario);
 					linha = scanner.nextLine();
-					
 
 					while (!linha.isEmpty()) {
 						if (linha.isEmpty()) {
@@ -71,7 +70,7 @@ public class FuncionarioServices implements Imposto{
 							parente = Parentesco.FILHO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
 							dependentes.add(dependente);
-							
+
 							linha = scanner.nextLine();
 
 						} else if (dadosParentesco[3].equalsIgnoreCase("sobrinho")) {
@@ -79,19 +78,18 @@ public class FuncionarioServices implements Imposto{
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
 							dependentes.add(dependente);
 							linha = scanner.nextLine();
-							
+
 						}
 
 					}
 
 				}
-				
 
 			}
 			for (Funcionario f : funcionarios) {
 
-				System.out.println(f.getNome() + ";" + f.getCpf() + ";" + f.getDataNascimento() + ";"
-						+ f.getSalarioBruto() + ";");
+				System.out.println(
+						f.getNome() + ";" + f.getCpf() + ";" + f.getDataNascimento() + ";" + f.getSalarioBruto() + ";");
 			}
 
 			System.out.println("");
@@ -100,26 +98,28 @@ public class FuncionarioServices implements Imposto{
 				System.out.println(
 						d.getNome() + ";" + d.getCpf() + ";" + d.getDataNascimento() + ";" + d.getParentesco());
 			}
-			
-			
 
 			scanner.close();
 
 		} catch (FileNotFoundException e) {
 			System.err.println("Arquivo nao encontrado");
+		} catch (DependenteException e) {
+
+			e.printStackTrace();
 		}
 
 	}
+
 	public static void gerador() {
-		
+
 		try {
-			
+
 			BufferedWriter bw = new BufferedWriter(new FileWriter("src./br/com/project/csv/Resultado.csv"));
-			
-			bw.append(Funcionario.class.toString());
+
+			// bw.append();
 			bw.close();
 			System.out.println("criado");
-			
+
 		} catch (IOException e) {
 			System.err.println("arquivo nao encontrado");
 			e.printStackTrace();
@@ -133,7 +133,7 @@ public class FuncionarioServices implements Imposto{
 
 	@Override
 	public Double impostoIR() {
-		
+
 		return null;
 	}
 
