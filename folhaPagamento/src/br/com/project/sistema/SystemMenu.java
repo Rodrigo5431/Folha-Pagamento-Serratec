@@ -18,6 +18,7 @@ public class SystemMenu {
 		f.leitor();
 		f.descontoInss();
 		f.gerador();
+		f.impostoIR();
 	}
 	
 
