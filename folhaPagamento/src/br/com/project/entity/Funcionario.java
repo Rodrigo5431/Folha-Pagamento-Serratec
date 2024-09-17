@@ -62,4 +62,13 @@ public class Funcionario extends Pessoa {
 		return dependentes;
 	}
 
+	public Double getSalarioLiquido() {
+		return salarioLiquido;
+	}
+
+	public void setSalarioLiquido(Double salarioLiquido) {
+		this.salarioLiquido = salarioLiquido;
+	}
+
+
 }
