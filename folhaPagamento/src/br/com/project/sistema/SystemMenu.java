@@ -16,6 +16,7 @@ public class SystemMenu {
 		//src./br/com/project/csv/Funcionario.csv
 		
 		f.leitor();
+		f.descontoInss();
 		f.gerador();
 	}
 	
