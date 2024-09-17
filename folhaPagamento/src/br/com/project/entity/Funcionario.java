@@ -11,16 +11,8 @@ public class Funcionario extends Pessoa {
 	private double salarioBruto;
 	private double descontoInss;
 	private double descontoIR;
+	private Double salarioLiquido;
 	private Set<Dependente> dependentesSet = new HashSet();
-	private Dependente dependente;
-
-	public Dependente getDependente() {
-		return dependente;
-	}
-
-	public void setDependente(Dependente dependente) {
-		this.dependente = dependente;
-	}
 
 	public Funcionario(String nome, String cpf, LocalDate dataNascimento, double salarioBruto)
 			throws DependenteException {
@@ -62,8 +54,12 @@ public class Funcionario extends Pessoa {
 		return dependentesSet;
 	}
 
-	
-	
-	
+	public Double getSalarioLiquido() {
+		return salarioLiquido;
+	}
+
+	public void setSalarioLiquido(Double salarioLiquido) {
+		this.salarioLiquido = salarioLiquido;
+	}
 
 }
