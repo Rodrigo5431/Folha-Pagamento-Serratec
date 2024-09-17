@@ -13,6 +13,8 @@ import java.util.Scanner;
 
 import br.com.project.entity.Dependente;
 import br.com.project.entity.Funcionario;
+import br.com.project.enums.AliquotaInss;
+import br.com.project.enums.Inss;
 import br.com.project.enums.Ir;
 import br.com.project.enums.Parentesco;
 import br.com.project.interfaces.Imposto;
@@ -46,6 +48,7 @@ public class FuncionarioServices implements Imposto{
 					LocalDate dataNascimento = LocalDate.parse(dataNascimentoString, formatter);
 					Double salario = Double.parseDouble(salarioString);
 					Funcionario funcionario = new Funcionario(nome, cpf, dataNascimento, salario);
+					double salarioB = salario;
 					funcionarios.add(funcionario);
 					linha = scanner.nextLine();
 					
@@ -125,11 +128,24 @@ public class FuncionarioServices implements Imposto{
 			e.printStackTrace();
 		}
 	}
-
+	
 	@Override
 	public Double descontoInss() {
-		return null;
+		double calculoInss = 0.0;
+		Inss deducao = Inss.DEDUCAO;
+		Inss deducao1 = Inss.DEDUCAO1;
+		Inss deducao2 = Inss.DEDUCAO2;
+		Inss deducao3 = Inss.DEDUCAO3;
+		
+		AliquotaInss ali = AliquotaInss.ALIN;
+		AliquotaInss ali2 = AliquotaInss.ALIN2;
+		AliquotaInss ali3 = AliquotaInss.ALIN3;
+		AliquotaInss ali4 = AliquotaInss.ALIN4;
+		
 	}
+		
+		
+		
 
 	@Override
 	public Double impostoIR() {
