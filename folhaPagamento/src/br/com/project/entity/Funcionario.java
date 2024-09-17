@@ -2,6 +2,7 @@ package br.com.project.entity;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import br.com.project.exception.DependenteException;
@@ -10,7 +11,16 @@ public class Funcionario extends Pessoa {
 	private double salarioBruto;
 	private double descontoInss;
 	private double descontoIR;
-	private Set <Dependente> dependentesSet = new HashSet();
+	private Set<Dependente> dependentesSet = new HashSet();
+	private Dependente dependente;
+
+	public Dependente getDependente() {
+		return dependente;
+	}
+
+	public void setDependente(Dependente dependente) {
+		this.dependente = dependente;
+	}
 
 	public Funcionario(String nome, String cpf, LocalDate dataNascimento, double salarioBruto)
 			throws DependenteException {
@@ -23,7 +33,6 @@ public class Funcionario extends Pessoa {
 	public String toString() {
 		return super.toString() + descontoInss + ";" + descontoIR + ";";
 	}
-	
 
 	public double getDescontoInss() {
 		return descontoInss;
@@ -53,13 +62,8 @@ public class Funcionario extends Pessoa {
 		return dependentesSet;
 	}
 
-	public void setDependentes(Set<Dependente> dependentes) {
-		this.dependentesSet = dependentes;
-	}
-
 	
 	
-
 	
 
 }
