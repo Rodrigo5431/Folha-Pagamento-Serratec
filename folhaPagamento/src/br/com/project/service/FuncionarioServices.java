@@ -80,14 +80,14 @@ public class FuncionarioServices implements Imposto {
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
 							dependentes.add(dependente);
 							linha = scanner.nextLine();
-							//funcionario.setDependente(dependente);
+							// funcionario.setDependente(dependente);
 
 						} else if (dadosParentesco[3].equalsIgnoreCase("filho")) {
 							parente = Parentesco.FILHO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
 							contador++;
 							dependentes.add(dependente);
-							//funcionario.setDependente(dependente);
+							// funcionario.setDependente(dependente);
 
 							linha = scanner.nextLine();
 
@@ -96,11 +96,11 @@ public class FuncionarioServices implements Imposto {
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
 							dependentes.add(dependente);
 							linha = scanner.nextLine();
-							//dependentesSet.add(dependentes);
+							// dependentesSet.add(dependentes);
 							System.out.println(funcionario.getDependentes() + "teste2");
 
 						}
-						
+
 					}
 
 				}
@@ -180,13 +180,11 @@ public class FuncionarioServices implements Imposto {
 				inss = Inss.DEDUCAO3;
 			}
 
-			// System.out.println(aliquota.getValor());
 			double taxaAliquota = aliquota.getValor();
 			double taxaInss = inss.getValorInss();
 
 			calculoInss = (salario * taxaAliquota) - taxaInss;
 			f.setDescontoInss(calculoInss);
-			//System.out.printf("%.2f%n", calculoInss);
 
 		}
 		return null;
@@ -195,62 +193,68 @@ public class FuncionarioServices implements Imposto {
 
 	@Override
 	public Double impostoIR() {
-			calculoIr = 0.0;
-		    Double salario = 0.0;
-		    double valorDependentes = 189.59; 
-		    
-		    for (Funcionario f : funcionarios) {
-		        salario = f.getSalarioBruto();
-		        double inss = calculoInss;
-		        System.out.println(calculoInss);
-		        
-		        int numDependentes = f.getDependentes().size();
-		        System.out.println(numDependentes + "teste1");
-		        double deducaoDependentes = numDependentes * valorDependentes;
+		calculoIr = 0.0;
+		Double salario = 0.0;
+		double valorDependentes = 189.59;
 
-		        AliquotasIr aliquota = AliquotasIr.ALIR;
-		        Ir deducao = Ir.IR;
-		        
-		        if (salario > 0 && salario <= 2259.00) {
-		        aliquota = AliquotasIr.ALIR;
-		        deducao = Ir.IR;
-		        } 
-		        
-		        else if (salario > 2259.00 && salario <= 2826.65) {
-		        	aliquota = AliquotasIr.ALIR2;
-			        deducao = Ir.IR2;
-		            
-		        } else if (salario > 2826.65 && salario <= 3751.05) {
-		        	aliquota = AliquotasIr.ALIR3;
-			        deducao = Ir.IR3;
-		        } else if (salario > 3751.05 && salario <= 4664.68) {
-		        	aliquota = AliquotasIr.ALIR4;
-			        deducao = Ir.IR4;
-		        } else if(salario >4664.69 ){ 
-		        	aliquota = AliquotasIr.ALIR5;
-			        deducao = Ir.IR5;
-		        }
-		        
-		        //calculoIr = ((salario - deducaoDependentes - inss) * aliquota) - deducao;
+		for (Funcionario f : funcionarios) {
+			salario = f.getSalarioBruto();
+			double inss = calculoInss;
+			System.out.println(calculoInss);
 
-		       
-		        if (calculoIr < 0) {
-		            calculoIr = 0.0;
-		        }
+			int numDependentes = f.getDependentes().size();
+			System.out.println(numDependentes + "teste1");
+			double deducaoDependentes = numDependentes * valorDependentes;
 
-		        f.setDescontoIR(calculoIr);
-		        
-		     //   System.out.println(f.getDescontoIR());
-		        
-		    }
+			AliquotasIr aliquota = AliquotasIr.ALIR;
+			Ir deducao = Ir.IR;
 
-		    return null;
-	
-	}
+			if (salario > 0 && salario <= 2259.00) {
+				aliquota = AliquotasIr.ALIR;
+				deducao = Ir.IR;
+			}
+
+			else if (salario > 2259.00 && salario <= 2826.65) {
+				aliquota = AliquotasIr.ALIR2;
+				deducao = Ir.IR2;
+
+			} else if (salario > 2826.65 && salario <= 3751.05) {
+				aliquota = AliquotasIr.ALIR3;
+				deducao = Ir.IR3;
+			} else if (salario > 3751.05 && salario <= 4664.68) {
+				aliquota = AliquotasIr.ALIR4;
+				deducao = Ir.IR4;
+			} else if (salario > 4664.69) {
+				aliquota = AliquotasIr.ALIR5;
+				deducao = Ir.IR5;
+			}
+
+			if (calculoIr < 0) {
+				calculoIr = 0.0;
+			}
+
+			f.setDescontoIR(calculoIr);
+
+		}
+
+		return null;
 
 	}
-		
 
+	public void salarioLiquido() {
 
+		Double salarioL = 0.;
 
+		for (Funcionario f : funcionarios) {
 
+			salarioL = f.getSalarioBruto();
+
+			salarioL -= f.getDescontoInss();
+			salarioL -= f.getDescontoIR();
+
+			f.setSalarioLiquido(salarioL);
+
+		}
+
+	}
+}
