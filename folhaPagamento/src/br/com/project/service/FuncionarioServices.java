@@ -13,12 +13,15 @@ import java.util.Scanner;
 
 import br.com.project.entity.Dependente;
 import br.com.project.entity.Funcionario;
-import br.com.project.enums.Ir;
+import br.com.project.enums.AliquotaInss;
+import br.com.project.enums.Inss;
 import br.com.project.enums.Parentesco;
 import br.com.project.exception.DependenteException;
 import br.com.project.interfaces.Imposto;
 
 public class FuncionarioServices implements Imposto {
+	List<Funcionario> funcionarios = new ArrayList<>();
+	List<Dependente> dependentes = new ArrayList<>();
 
 	public void leitor() {
 		Integer contador = 0;
@@ -28,8 +31,6 @@ public class FuncionarioServices implements Imposto {
 			String caminho = ler.next();
 			Scanner scanner = new Scanner(new File(caminho));
 			Parentesco parente = Parentesco.NENHUM;
-			List<Funcionario> funcionarios = new ArrayList<>();
-			List<Dependente> dependentes = new ArrayList<>();
 			// src./br/com/project/csv/Funcionario.csv
 			// /home/administrador/poo/Folha-Pagamento-Serratec/folhaPagamento/src/br/com/project/csv/Funcionario.csv
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -47,6 +48,7 @@ public class FuncionarioServices implements Imposto {
 					LocalDate dataNascimento = LocalDate.parse(dataNascimentoString, formatter);
 					Double salario = Double.parseDouble(salarioString);
 					Funcionario funcionario = new Funcionario(nome, cpf, dataNascimento, salario);
+					double salarioB = salario;
 					funcionarios.add(funcionario);
 					linha = scanner.nextLine();
 
@@ -64,7 +66,7 @@ public class FuncionarioServices implements Imposto {
 						if (dadosParentesco[3].equalsIgnoreCase("outro")) {
 							parente = Parentesco.OUTRO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
-							
+
 							dependentes.add(dependente);
 							linha = scanner.nextLine();
 
@@ -97,10 +99,8 @@ public class FuncionarioServices implements Imposto {
 			System.out.println("");
 
 			for (Dependente d : dependentes) {
-				System.out.println(
-						d.getNome() + ";" + d.getCpf() + ";" + d.getData() + ";" + d.getParentesco());
+				System.out.println(d.getNome() + ";" + d.getCpf() + ";" + d.getData() + ";" + d.getParentesco());
 			}
-			
 
 			scanner.close();
 
@@ -113,22 +113,21 @@ public class FuncionarioServices implements Imposto {
 
 	}
 
-	public void gerador(List<Funcionario> f) {
-		
-		
+	public void gerador() {
+
 		try {
-			for (Funcionario funcionario : f) {
+			for (Funcionario funcionario : funcionarios) {
 				String nome = funcionario.getNome();
-				String cpf= funcionario.getCpf();
-				
-				//pegar valor inss
-				//pegar valor ir
-				
+				String cpf = funcionario.getCpf();
+
+				// pegar valor inss
+				// pegar valor ir
+
 				BufferedWriter bw = new BufferedWriter(new FileWriter("src./br/com/project/csv/Resultado.csv"));
-				bw.append(nome +";" + cpf + ";");
+				bw.append(nome + ";" + cpf + ";");
 				bw.close();
 				System.out.println("criado");
-				
+
 			}
 
 		} catch (IOException e) {
@@ -139,8 +138,20 @@ public class FuncionarioServices implements Imposto {
 
 	@Override
 	public Double descontoInss() {
-		
-		return null;
+
+		double calculoInss = 0.0;
+		Inss deducao = Inss.DEDUCAO;
+		Inss deducao1 = Inss.DEDUCAO1;
+		Inss deducao2 = Inss.DEDUCAO2;
+		Inss deducao3 = Inss.DEDUCAO3;
+
+		AliquotaInss ali = AliquotaInss.ALIN;
+		AliquotaInss ali2 = AliquotaInss.ALIN2;
+		AliquotaInss ali3 = AliquotaInss.ALIN3;
+		AliquotaInss ali4 = AliquotaInss.ALIN4;
+
+		return 0.0;
+
 	}
 
 	@Override
