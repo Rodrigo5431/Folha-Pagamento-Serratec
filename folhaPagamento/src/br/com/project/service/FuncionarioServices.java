@@ -14,7 +14,9 @@ import java.util.Scanner;
 import br.com.project.entity.Dependente;
 import br.com.project.entity.Funcionario;
 import br.com.project.enums.AliquotaInss;
+import br.com.project.enums.AliquotasIr;
 import br.com.project.enums.Inss;
+import br.com.project.enums.Ir;
 import br.com.project.enums.Parentesco;
 import br.com.project.exception.DependenteException;
 import br.com.project.interfaces.Imposto;
@@ -24,6 +26,7 @@ public class FuncionarioServices implements Imposto {
 	List<Dependente> dependentes = new ArrayList<>();
 	Integer contador = 0;
 	double calculoInss = 0.;
+	double calculoIr = 0.;
 
 	public double getCalculoInss() {
 		return calculoInss;
@@ -57,10 +60,9 @@ public class FuncionarioServices implements Imposto {
 					LocalDate dataNascimento = LocalDate.parse(dataNascimentoString, formatter);
 					Double salario = Double.parseDouble(salarioString);
 					Funcionario funcionario = new Funcionario(nome, cpf, dataNascimento, salario);
-					
+
 					funcionarios.add(funcionario);
 					linha = scanner.nextLine();
-					
 
 					while (!linha.isEmpty()) {
 						if (linha.isEmpty()) {
@@ -78,28 +80,27 @@ public class FuncionarioServices implements Imposto {
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
 							dependentes.add(dependente);
 							linha = scanner.nextLine();
-//							funcionario.setDependente(dependente);
+							//funcionario.setDependente(dependente);
 
 						} else if (dadosParentesco[3].equalsIgnoreCase("filho")) {
 							parente = Parentesco.FILHO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
 							contador++;
 							dependentes.add(dependente);
-//							funcionario.setDependente(dependente);
+							//funcionario.setDependente(dependente);
 
 							linha = scanner.nextLine();
 
 						} else if (dadosParentesco[3].equalsIgnoreCase("sobrinho")) {
 							parente = Parentesco.SOBRINHO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
-							contador++;
 							dependentes.add(dependente);
 							linha = scanner.nextLine();
-						//  funcionario.setDependentes(dependente);
-						//	funcionario.setDependente(dependente);
+							//dependentesSet.add(dependentes);
+							System.out.println(funcionario.getDependentes() + "teste2");
 
 						}
-
+						
 					}
 
 				}
@@ -125,8 +126,6 @@ public class FuncionarioServices implements Imposto {
 
 			e.printStackTrace();
 		}
-		
-		
 
 	}
 
@@ -140,9 +139,9 @@ public class FuncionarioServices implements Imposto {
 				Double inss = (double) Math.round(funcionario.getDescontoInss());
 				// Double ir = funcionario.get ();
 				// Double salario = funcionario.get ();
-				//descontoInss();
+				// descontoInss();
 				bw.append(nome + ";" + cpf + ";" + inss + ";" + "\n");
-				
+
 			}
 			bw.close();
 
@@ -154,12 +153,11 @@ public class FuncionarioServices implements Imposto {
 	}
 
 	@Override
-	public  Double descontoInss() {
+	public Double descontoInss() {
 
 		Double salario = 0.;
 		AliquotaInss aliquota = AliquotaInss.ALINDEF;
 		Inss inss = Inss.DEDUCAO;
-		
 
 		for (Funcionario f : funcionarios) {
 			calculoInss = 0.;
@@ -188,23 +186,71 @@ public class FuncionarioServices implements Imposto {
 
 			calculoInss = (salario * taxaAliquota) - taxaInss;
 			f.setDescontoInss(calculoInss);
-			System.out.printf("%.2f%n", calculoInss);
+			//System.out.printf("%.2f%n", calculoInss);
 
 		}
 		return null;
-		
 
 	}
 
 	@Override
 	public Double impostoIR() {
+			calculoIr = 0.0;
+		    Double salario = 0.0;
+		    double valorDependentes = 189.59; 
+		    
+		    for (Funcionario f : funcionarios) {
+		        salario = f.getSalarioBruto();
+		        double inss = calculoInss;
+		        System.out.println(calculoInss);
+		        
+		        int numDependentes = f.getDependentes().size();
+		        System.out.println(numDependentes + "teste1");
+		        double deducaoDependentes = numDependentes * valorDependentes;
 
-		for (Funcionario f : funcionarios) {
-			
-			System.out.println(f.getDependentes().size());
-		}
-		
-		return null;
+		        AliquotasIr aliquota = AliquotasIr.ALIR;
+		        Ir deducao = Ir.IR;
+		        
+		        if (salario > 0 && salario <= 2259.00) {
+		        aliquota = AliquotasIr.ALIR;
+		        deducao = Ir.IR;
+		        } 
+		        
+		        else if (salario > 2259.00 && salario <= 2826.65) {
+		        	aliquota = AliquotasIr.ALIR2;
+			        deducao = Ir.IR2;
+		            
+		        } else if (salario > 2826.65 && salario <= 3751.05) {
+		        	aliquota = AliquotasIr.ALIR3;
+			        deducao = Ir.IR3;
+		        } else if (salario > 3751.05 && salario <= 4664.68) {
+		        	aliquota = AliquotasIr.ALIR4;
+			        deducao = Ir.IR4;
+		        } else if(salario >4664.69 ){ 
+		        	aliquota = AliquotasIr.ALIR5;
+			        deducao = Ir.IR5;
+		        }
+		        
+		        //calculoIr = ((salario - deducaoDependentes - inss) * aliquota) - deducao;
+
+		       
+		        if (calculoIr < 0) {
+		            calculoIr = 0.0;
+		        }
+
+		        f.setDescontoIR(calculoIr);
+		        
+		     //   System.out.println(f.getDescontoIR());
+		        
+		    }
+
+		    return null;
+	
 	}
 
-}
+	}
+		
+
+
+
+
