@@ -3,5 +3,5 @@ package br.com.project.interfaces;
 public interface Imposto {
 	
 	public Double descontoInss();
-	public Double impostoIR();
+	public Double descontoIR();
 }
