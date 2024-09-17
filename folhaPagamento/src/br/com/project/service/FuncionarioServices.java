@@ -140,17 +140,40 @@ public class FuncionarioServices implements Imposto {
 	@Override
 	public Double descontoInss() {
 
-		double calculoInss = 0.0;
+		double calculoInss = 0.;
+        Double salario = 0.;
+        AliquotaInss aliquota = AliquotaInss.ALINDEF;
+        Inss inss = Inss.DEDUCAO;
 
-		Inss deducao = Inss.DEDUCAO;
-		Inss deducao1 = Inss.DEDUCAO1;
-		Inss deducao2 = Inss.DEDUCAO2;
-		Inss deducao3 = Inss.DEDUCAO3;
+        for (Funcionario f : funcionarios) {
+            salario = f.getSalarioBruto();
 
-		AliquotaInss ali = AliquotaInss.ALIN;
-		AliquotaInss ali2 = AliquotaInss.ALIN2;
-		AliquotaInss ali3 = AliquotaInss.ALIN3;
-		AliquotaInss ali4 = AliquotaInss.ALIN4;
+
+            if (salario <= 1412.00 && salario > 0.00) {
+                aliquota = AliquotaInss.ALIN;
+                inss = Inss.DEDUCAO;
+
+            } else if (salario > 1412.01 && salario <= 2666.68) {
+                aliquota = AliquotaInss.ALIN2;
+                inss = Inss.DEDUCAO1;
+
+            } else if (salario > 2666.69 && salario <= 4000.03) {
+                aliquota = AliquotaInss.ALIN3;
+                inss = Inss.DEDUCAO2;
+
+            } else if (salario > 4000.04 && salario <= 7786.02) {
+                aliquota = AliquotaInss.ALIN4;
+                inss = Inss.DEDUCAO3;
+            }
+
+            //System.out.println(aliquota.getValor());
+            double taxaAliquota = aliquota.getValor();
+            double taxaInss = inss.getValorInss();
+
+            calculoInss = (salario * taxaAliquota) - taxaInss;
+            System.out.printf("%.2f%n", calculoInss);
+
+        }
 
 		return 0.0;
 
