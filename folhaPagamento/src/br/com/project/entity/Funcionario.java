@@ -26,14 +26,6 @@ public class Funcionario extends Pessoa {
 		return super.toString() + descontoInss + ";" + descontoIR + ";";
 	}
 
-	public Double getSalarioLiquido() {
-		return salarioLiquido;
-	}
-
-	public void setSalarioLiquido(Double salarioLiquido) {
-		this.salarioLiquido = salarioLiquido;
-	}
-
 	public double getDescontoInss() {
 		return descontoInss;
 	}
@@ -69,6 +61,5 @@ public class Funcionario extends Pessoa {
 	public void setSalarioLiquido(Double salarioLiquido) {
 		this.salarioLiquido = salarioLiquido;
 	}
-
 
 }
