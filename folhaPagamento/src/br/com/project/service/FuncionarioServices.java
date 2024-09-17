@@ -76,42 +76,27 @@ public class FuncionarioServices implements Imposto {
 						if (dadosParentesco[3].equalsIgnoreCase("outro")) {
 							parente = Parentesco.OUTRO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
-							//dependentes.add(dependente);
-							funcionario.getDependentes().add(dependente);	
+							funcionario.getDependentes().add(dependente);
 							linha = scanner.nextLine();
-
 
 						} else if (dadosParentesco[3].equalsIgnoreCase("filho")) {
 							parente = Parentesco.FILHO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
-
-							//dependentes.add(dependente);
 							funcionario.getDependentes().add(dependente);
-
-							
-							dependentes.add(dependente);
-							// funcionario.setDependente(dependente);
-
 							linha = scanner.nextLine();
-
+							
 						} else if (dadosParentesco[3].equalsIgnoreCase("sobrinho")) {
 							parente = Parentesco.SOBRINHO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
-							//dependentes.add(dependente);
 							funcionario.getDependentes().add(dependente);
 							linha = scanner.nextLine();
 
-
 						}
-						}
-
-
 					}
 
 				}
 
 			}
-
 
 			scanner.close();
 
@@ -121,8 +106,6 @@ public class FuncionarioServices implements Imposto {
 
 			e.printStackTrace();
 		}
-		
-
 	}
 
 	public void gerador() {
@@ -170,11 +153,10 @@ public class FuncionarioServices implements Imposto {
 				aliquota = AliquotaInss.ALIN3;
 				inss = Inss.DEDUCAO2;
 
-			} else if (salario > 4000.04 ) {
+			} else if (salario > 4000.04) {
 				aliquota = AliquotaInss.ALIN4;
 				inss = Inss.DEDUCAO3;
 			}
-		
 
 			double taxaAliquota = aliquota.getValor();
 			double taxaInss = inss.getValorInss();
@@ -238,14 +220,12 @@ public class FuncionarioServices implements Imposto {
 
 		for (Funcionario f : funcionarios) {
 
-salarioL = f.getSalarioBruto();
+			salarioL = f.getSalarioBruto();
 
 			salarioL -= f.getDescontoInss();
 			salarioL -= f.getDescontoIR();
 
 			f.setSalarioLiquido(salarioL);
-	}
-
 		}
 
 	}
