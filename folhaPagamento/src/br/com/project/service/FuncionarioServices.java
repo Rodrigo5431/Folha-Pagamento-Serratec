@@ -195,46 +195,42 @@ public class FuncionarioServices implements Imposto {
 	public Double impostoIR() {
 		calculoIr = 0.0;
 		Double salario = 0.0;
-		double valorDependentes = 189.59;
 
 		for (Funcionario f : funcionarios) {
 			salario = f.getSalarioBruto();
-			double inss = calculoInss;
-			System.out.println(calculoInss);
+			double inss = f.getDescontoInss();
+			double qtdDependentes = f.getDependentes().size() * 189.59;
+			double aliquota = AliquotasIr.ALIR.getValor();
+			double deducao = Ir.IR.getValor();
+			double salarioSemInss = salario - qtdDependentes - inss;
 
-			int numDependentes = f.getDependentes().size();
-			System.out.println(numDependentes + "teste1");
-			double deducaoDependentes = numDependentes * valorDependentes;
-
-			AliquotasIr aliquota = AliquotasIr.ALIR;
-			Ir deducao = Ir.IR;
-
-			if (salario > 0 && salario <= 2259.00) {
-				aliquota = AliquotasIr.ALIR;
-				deducao = Ir.IR;
+			if (salarioSemInss > 0 && salarioSemInss <= 2259.00) {
+				aliquota = AliquotasIr.ALIR.getValor();
+				deducao = Ir.IR.getValor();
 			}
 
-			else if (salario > 2259.00 && salario <= 2826.65) {
-				aliquota = AliquotasIr.ALIR2;
-				deducao = Ir.IR2;
+			else if (salarioSemInss > 2259.00 && salarioSemInss <= 2826.65) {
+				aliquota = AliquotasIr.ALIR2.getValor();
+				deducao = Ir.IR2.getValor();
 
-			} else if (salario > 2826.65 && salario <= 3751.05) {
-				aliquota = AliquotasIr.ALIR3;
-				deducao = Ir.IR3;
-			} else if (salario > 3751.05 && salario <= 4664.68) {
-				aliquota = AliquotasIr.ALIR4;
-				deducao = Ir.IR4;
-			} else if (salario > 4664.69) {
-				aliquota = AliquotasIr.ALIR5;
-				deducao = Ir.IR5;
+			} else if (salarioSemInss > 2826.65 && salarioSemInss <= 3751.05) {
+				aliquota = AliquotasIr.ALIR3.getValor();
+				deducao = Ir.IR3.getValor();
+			} else if (salarioSemInss > 3751.05 && salarioSemInss <= 4664.68) {
+				aliquota = AliquotasIr.ALIR4.getValor();
+				deducao = Ir.IR4.getValor();
+			} else if (salarioSemInss > 4664.69) {
+				aliquota = AliquotasIr.ALIR5.getValor();
+				deducao = Ir.IR5.getValor();
 			}
+
+			calculoIr = salarioSemInss * aliquota - deducao;
 
 			if (calculoIr < 0) {
 				calculoIr = 0.0;
 			}
 
 			f.setDescontoIR(calculoIr);
-
 		}
 
 		return null;
