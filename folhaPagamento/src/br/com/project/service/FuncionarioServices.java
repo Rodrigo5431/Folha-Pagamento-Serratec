@@ -140,18 +140,6 @@ public class FuncionarioServices implements Imposto {
 	@Override
 	public Double descontoInss() {
 
-		double calculoInss = 0.0;
-
-		Inss deducao = Inss.DEDUCAO;
-		Inss deducao1 = Inss.DEDUCAO1;
-		Inss deducao2 = Inss.DEDUCAO2;
-		Inss deducao3 = Inss.DEDUCAO3;
-
-		AliquotaInss ali = AliquotaInss.ALIN;
-		AliquotaInss ali2 = AliquotaInss.ALIN2;
-		AliquotaInss ali3 = AliquotaInss.ALIN3;
-		AliquotaInss ali4 = AliquotaInss.ALIN4;
-
 		return 0.0;
 
 	}
