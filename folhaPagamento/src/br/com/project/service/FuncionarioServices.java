@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,8 +24,6 @@ import br.com.project.interfaces.Imposto;
 
 public class FuncionarioServices implements Imposto {
 	List<Funcionario> funcionarios = new ArrayList<>();
-	List<Dependente> dependentes = new ArrayList<>();
-	Integer contador = 0;
 	double calculoInss = 0.;
 	double calculoIr = 0.;
 
@@ -41,10 +40,9 @@ public class FuncionarioServices implements Imposto {
 			Scanner ler = new Scanner(System.in);
 			System.out.println("Digite o caminho do arquivo");
 			String caminho = ler.next();
+			ler.close();
 			Scanner scanner = new Scanner(new File(caminho));
 			Parentesco parente = Parentesco.NENHUM;
-			// src./br/com/project/csv/Funcionario.csv
-			// /home/administrador/poo/Folha-Pagamento-Serratec/folhaPagamento/src/br/com/project/csv/Funcionario.csv
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 			while (scanner.hasNext()) {
@@ -78,14 +76,19 @@ public class FuncionarioServices implements Imposto {
 						if (dadosParentesco[3].equalsIgnoreCase("outro")) {
 							parente = Parentesco.OUTRO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
-							dependentes.add(dependente);
+							//dependentes.add(dependente);
+							funcionario.getDependentes().add(dependente);	
 							linha = scanner.nextLine();
-							// funcionario.setDependente(dependente);
+
 
 						} else if (dadosParentesco[3].equalsIgnoreCase("filho")) {
 							parente = Parentesco.FILHO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
-							contador++;
+
+							//dependentes.add(dependente);
+							funcionario.getDependentes().add(dependente);
+
+							
 							dependentes.add(dependente);
 							// funcionario.setDependente(dependente);
 
@@ -94,29 +97,21 @@ public class FuncionarioServices implements Imposto {
 						} else if (dadosParentesco[3].equalsIgnoreCase("sobrinho")) {
 							parente = Parentesco.SOBRINHO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
-							dependentes.add(dependente);
+							//dependentes.add(dependente);
+							funcionario.getDependentes().add(dependente);
 							linha = scanner.nextLine();
-							// dependentesSet.add(dependentes);
-							System.out.println(funcionario.getDependentes() + "teste2");
+
 
 						}
+						}
+
 
 					}
 
 				}
 
 			}
-			/*
-			 * for (Funcionario f : funcionarios) {
-			 * 
-			 * System.out.println( f.getNome() + ";" + f.getCpf() + ";" +
-			 * f.getDataNascimento() + ";" + f.getSalarioBruto() + ";"); }
-			 * 
-			 * System.out.println("");
-			 * 
-			 * for (Dependente d : dependentes) { System.out.println(d.getNome() + ";" +
-			 * d.getCpf() + ";" + d.getData() + ";" + d.getParentesco()); }
-			 */
+
 
 			scanner.close();
 
@@ -126,6 +121,7 @@ public class FuncionarioServices implements Imposto {
 
 			e.printStackTrace();
 		}
+		
 
 	}
 
@@ -137,10 +133,9 @@ public class FuncionarioServices implements Imposto {
 				String nome = funcionario.getNome();
 				String cpf = funcionario.getCpf();
 				Double inss = (double) Math.round(funcionario.getDescontoInss());
-				// Double ir = funcionario.get ();
-				// Double salario = funcionario.get ();
-				// descontoInss();
-				bw.append(nome + ";" + cpf + ";" + inss + ";" + "\n");
+				Double ir = (double) Math.round(funcionario.getDescontoIR());
+				Double salario = (double) Math.round(funcionario.getSalarioLiquido());
+				bw.append(nome + ";" + cpf + ";" + inss + ";" + ir + ";" + salario + ";" + "\n");
 
 			}
 			bw.close();
@@ -175,10 +170,11 @@ public class FuncionarioServices implements Imposto {
 				aliquota = AliquotaInss.ALIN3;
 				inss = Inss.DEDUCAO2;
 
-			} else if (salario > 4000.04) {
+			} else if (salario > 4000.04 ) {
 				aliquota = AliquotaInss.ALIN4;
 				inss = Inss.DEDUCAO3;
 			}
+		
 
 			double taxaAliquota = aliquota.getValor();
 			double taxaInss = inss.getValorInss();
@@ -192,7 +188,7 @@ public class FuncionarioServices implements Imposto {
 	}
 
 	@Override
-	public Double impostoIR() {
+	public Double descontoIR() {
 		calculoIr = 0.0;
 		Double salario = 0.0;
 
@@ -238,19 +234,20 @@ public class FuncionarioServices implements Imposto {
 	}
 
 	public void salarioLiquido() {
-
 		Double salarioL = 0.;
 
 		for (Funcionario f : funcionarios) {
 
-			salarioL = f.getSalarioBruto();
+salarioL = f.getSalarioBruto();
 
 			salarioL -= f.getDescontoInss();
 			salarioL -= f.getDescontoIR();
 
 			f.setSalarioLiquido(salarioL);
+	}
 
 		}
 
 	}
+
 }

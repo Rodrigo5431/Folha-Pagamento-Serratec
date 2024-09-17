@@ -9,10 +9,10 @@ import br.com.project.exception.DependenteException;
 
 public class Funcionario extends Pessoa {
 	private double salarioBruto;
-	private double descontoInss;
+	public double descontoInss;
 	private double descontoIR;
 	private Double salarioLiquido;
-	private Set<Dependente> dependentesSet = new HashSet();
+	public Set<Dependente> dependentes = new HashSet();
 
 	public Funcionario(String nome, String cpf, LocalDate dataNascimento, double salarioBruto)
 			throws DependenteException {
@@ -24,6 +24,14 @@ public class Funcionario extends Pessoa {
 	@Override
 	public String toString() {
 		return super.toString() + descontoInss + ";" + descontoIR + ";";
+	}
+
+	public Double getSalarioLiquido() {
+		return salarioLiquido;
+	}
+
+	public void setSalarioLiquido(Double salarioLiquido) {
+		this.salarioLiquido = salarioLiquido;
 	}
 
 	public double getDescontoInss() {
@@ -51,7 +59,7 @@ public class Funcionario extends Pessoa {
 	}
 
 	public Set<Dependente> getDependentes() {
-		return dependentesSet;
+		return dependentes;
 	}
 
 	public Double getSalarioLiquido() {
@@ -61,5 +69,6 @@ public class Funcionario extends Pessoa {
 	public void setSalarioLiquido(Double salarioLiquido) {
 		this.salarioLiquido = salarioLiquido;
 	}
+
 
 }
