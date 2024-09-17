@@ -21,6 +21,7 @@ import br.com.project.interfaces.Imposto;
 public class FuncionarioServices implements Imposto {
 
 	public void leitor() {
+		Integer contador = 0;
 		try {
 			Scanner ler = new Scanner(System.in);
 			System.out.println("Digite o caminho do arquivo");
@@ -63,6 +64,7 @@ public class FuncionarioServices implements Imposto {
 						if (dadosParentesco[3].equalsIgnoreCase("outro")) {
 							parente = Parentesco.OUTRO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
+							
 							dependentes.add(dependente);
 							linha = scanner.nextLine();
 
@@ -96,8 +98,9 @@ public class FuncionarioServices implements Imposto {
 
 			for (Dependente d : dependentes) {
 				System.out.println(
-						d.getNome() + ";" + d.getCpf() + ";" + d.getDataNascimento() + ";" + d.getParentesco());
+						d.getNome() + ";" + d.getCpf() + ";" + d.getData() + ";" + d.getParentesco());
 			}
+			
 
 			scanner.close();
 
@@ -110,15 +113,23 @@ public class FuncionarioServices implements Imposto {
 
 	}
 
-	public static void gerador() {
-
+	public void gerador(List<Funcionario> f) {
+		
+		
 		try {
-
-			BufferedWriter bw = new BufferedWriter(new FileWriter("src./br/com/project/csv/Resultado.csv"));
-
-			// bw.append();
-			bw.close();
-			System.out.println("criado");
+			for (Funcionario funcionario : f) {
+				String nome = funcionario.getNome();
+				String cpf= funcionario.getCpf();
+				
+				//pegar valor inss
+				//pegar valor ir
+				
+				BufferedWriter bw = new BufferedWriter(new FileWriter("src./br/com/project/csv/Resultado.csv"));
+				bw.append(nome +";" + cpf + ";");
+				bw.close();
+				System.out.println("criado");
+				
+			}
 
 		} catch (IOException e) {
 			System.err.println("arquivo nao encontrado");
@@ -128,6 +139,7 @@ public class FuncionarioServices implements Imposto {
 
 	@Override
 	public Double descontoInss() {
+		
 		return null;
 	}
 
