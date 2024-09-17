@@ -22,9 +22,9 @@ import br.com.project.interfaces.Imposto;
 public class FuncionarioServices implements Imposto {
 	List<Funcionario> funcionarios = new ArrayList<>();
 	List<Dependente> dependentes = new ArrayList<>();
+	Integer contador = 0;
 
 	public void leitor() {
-		Integer contador = 0;
 		try {
 			Scanner ler = new Scanner(System.in);
 			System.out.println("Digite o caminho do arquivo");
@@ -48,7 +48,7 @@ public class FuncionarioServices implements Imposto {
 					LocalDate dataNascimento = LocalDate.parse(dataNascimentoString, formatter);
 					Double salario = Double.parseDouble(salarioString);
 					Funcionario funcionario = new Funcionario(nome, cpf, dataNascimento, salario);
-					double salarioB = salario;
+
 					funcionarios.add(funcionario);
 					linha = scanner.nextLine();
 
@@ -66,13 +66,14 @@ public class FuncionarioServices implements Imposto {
 						if (dadosParentesco[3].equalsIgnoreCase("outro")) {
 							parente = Parentesco.OUTRO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
-
+							contador++;
 							dependentes.add(dependente);
 							linha = scanner.nextLine();
 
 						} else if (dadosParentesco[3].equalsIgnoreCase("filho")) {
 							parente = Parentesco.FILHO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
+							contador++;
 							dependentes.add(dependente);
 
 							linha = scanner.nextLine();
@@ -80,6 +81,7 @@ public class FuncionarioServices implements Imposto {
 						} else if (dadosParentesco[3].equalsIgnoreCase("sobrinho")) {
 							parente = Parentesco.SOBRINHO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
+							contador++;
 							dependentes.add(dependente);
 							linha = scanner.nextLine();
 
@@ -90,17 +92,17 @@ public class FuncionarioServices implements Imposto {
 				}
 
 			}
-			for (Funcionario f : funcionarios) {
-
-				System.out.println(
-						f.getNome() + ";" + f.getCpf() + ";" + f.getDataNascimento() + ";" + f.getSalarioBruto() + ";");
-			}
-
-			System.out.println("");
-
-			for (Dependente d : dependentes) {
-				System.out.println(d.getNome() + ";" + d.getCpf() + ";" + d.getData() + ";" + d.getParentesco());
-			}
+			/*
+			 * for (Funcionario f : funcionarios) {
+			 * 
+			 * System.out.println( f.getNome() + ";" + f.getCpf() + ";" +
+			 * f.getDataNascimento() + ";" + f.getSalarioBruto() + ";"); }
+			 * 
+			 * System.out.println("");
+			 * 
+			 * for (Dependente d : dependentes) { System.out.println(d.getNome() + ";" +
+			 * d.getCpf() + ";" + d.getData() + ";" + d.getParentesco()); }
+			 */
 
 			scanner.close();
 
@@ -116,19 +118,18 @@ public class FuncionarioServices implements Imposto {
 	public void gerador() {
 
 		try {
+			BufferedWriter bw = new BufferedWriter(new FileWriter("src./br/com/project/csv/Resultado.csv"));
 			for (Funcionario funcionario : funcionarios) {
 				String nome = funcionario.getNome();
 				String cpf = funcionario.getCpf();
-
-				// pegar valor inss
-				// pegar valor ir
-
-				BufferedWriter bw = new BufferedWriter(new FileWriter("src./br/com/project/csv/Resultado.csv"));
-				bw.append(nome + ";" + cpf + ";");
-				bw.close();
+				//Double inss = funcionario.get ();
+				//Double ir = funcionario.get ();
+				//Double salario = funcionario.get ();
+				bw.append(nome + ";" + cpf + ";" + "\n");
 				System.out.println("criado");
 
 			}
+			bw.close();
 
 		} catch (IOException e) {
 			System.err.println("arquivo nao encontrado");
@@ -140,6 +141,7 @@ public class FuncionarioServices implements Imposto {
 	public Double descontoInss() {
 
 		double calculoInss = 0.0;
+
 		Inss deducao = Inss.DEDUCAO;
 		Inss deducao1 = Inss.DEDUCAO1;
 		Inss deducao2 = Inss.DEDUCAO2;
