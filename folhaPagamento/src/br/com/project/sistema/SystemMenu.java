@@ -15,6 +15,7 @@ public class SystemMenu {
 		f.descontoIR();
 		f.salarioLiquido();
 		f.banco();
+		f.inserirBancoDependente();
 		f.gerador();
 	}
 

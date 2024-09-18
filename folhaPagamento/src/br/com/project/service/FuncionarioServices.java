@@ -9,11 +9,11 @@ import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.Scanner;
 
 import br.com.project.connection.ConnectionFactory;
+import br.com.project.connection.DependenteDAO;
 import br.com.project.connection.FuncionarioDAO;
 import br.com.project.entity.Dependente;
 import br.com.project.entity.Funcionario;
@@ -27,6 +27,7 @@ import br.com.project.interfaces.Imposto;
 
 public class FuncionarioServices implements Imposto {
 	List<Funcionario> funcionarios = new ArrayList<>();
+	List <Dependente> dependentes = new ArrayList<>();
 	double calculoInss = 0.;
 	double calculoIr = 0.;
 
@@ -84,18 +85,21 @@ public class FuncionarioServices implements Imposto {
 							parente = Parentesco.OUTRO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
 							funcionario.getDependentes().add(dependente);
+							dependentes.add(dependente);
 							linha = scanner.nextLine();
 
 						} else if (dadosParentesco[3].equalsIgnoreCase("filho")) {
 							parente = Parentesco.FILHO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
 							funcionario.getDependentes().add(dependente);
+							dependentes.add(dependente);
 							linha = scanner.nextLine();
 
 						} else if (dadosParentesco[3].equalsIgnoreCase("sobrinho")) {
 							parente = Parentesco.SOBRINHO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
 							funcionario.getDependentes().add(dependente);
+							dependentes.add(dependente);
 							linha = scanner.nextLine();
 
 						}
@@ -251,11 +255,34 @@ public class FuncionarioServices implements Imposto {
 			String cpf = funcionario.getCpf();
 			LocalDate data = funcionario.getDataNascimento();
 			Double salarioBruto = funcionario.getSalarioBruto();
-			System.out.println((funcionario));
 			try {
 				Funcionario fun = new Funcionario(nome, cpf, data, salarioBruto);
 				f.inserir(fun);
 				
+			} catch (DependenteException e) {
+				System.err.println();
+			}
+
+		}
+	}
+
+	public void inserirBancoDependente() {
+
+		ConnectionFactory factory = new ConnectionFactory();
+		Connection connection = factory.getConnection();
+
+		FuncionarioServices fs = new FuncionarioServices();
+		DependenteDAO d = new DependenteDAO();
+
+		for (Dependente dependente : dependentes) {
+
+			String nome = dependente.getNome();
+			String cpf = dependente.getCpf();
+			LocalDate data = dependente.getData();
+			try {
+				Dependente dependent = new Dependente(nome, cpf, data, null);
+				d.inserirDependente(dependent);
+
 			} catch (DependenteException e) {
 
 			}
