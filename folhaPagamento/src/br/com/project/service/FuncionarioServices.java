@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import br.com.project.connection.ConnectionFactory;
+import br.com.project.connection.FuncionarioDAO;
 import br.com.project.entity.Dependente;
 import br.com.project.entity.Funcionario;
 import br.com.project.enums.AliquotaInss;
@@ -33,6 +36,10 @@ public class FuncionarioServices implements Imposto {
 
 	public void setCalculoInss(double calculoInss) {
 		this.calculoInss = calculoInss;
+	}
+
+	public List<Funcionario> getFuncionarios() {
+		return funcionarios;
 	}
 
 	public void leitor() {
@@ -84,7 +91,7 @@ public class FuncionarioServices implements Imposto {
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
 							funcionario.getDependentes().add(dependente);
 							linha = scanner.nextLine();
-							
+
 						} else if (dadosParentesco[3].equalsIgnoreCase("sobrinho")) {
 							parente = Parentesco.SOBRINHO;
 							Dependente dependente = new Dependente(nomeD, cpfD, dataNascimentoD, parente);
@@ -226,6 +233,33 @@ public class FuncionarioServices implements Imposto {
 			salarioL -= f.getDescontoIR();
 
 			f.setSalarioLiquido(salarioL);
+		}
+
+	}
+
+	public void banco() {
+		
+		ConnectionFactory factory = new ConnectionFactory();
+		Connection connection = factory.getConnection();
+
+		FuncionarioServices fs = new FuncionarioServices();
+		FuncionarioDAO f = new FuncionarioDAO();
+
+		for (Funcionario funcionario : funcionarios) {
+
+			String nome = funcionario.getNome();
+			String cpf = funcionario.getCpf();
+			LocalDate data = funcionario.getDataNascimento();
+			Double salarioBruto = funcionario.getSalarioBruto();
+			System.out.println((funcionario));
+			try {
+				Funcionario fun = new Funcionario(nome, cpf, data, salarioBruto);
+				f.inserir(fun);
+				
+			} catch (DependenteException e) {
+
+			}
+
 		}
 
 	}

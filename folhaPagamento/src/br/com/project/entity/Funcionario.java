@@ -11,7 +11,7 @@ public class Funcionario extends Pessoa {
 	private double salarioBruto;
 	public double descontoInss;
 	private double descontoIR;
-	private Double salarioLiquido;
+	private double salarioLiquido;
 	public Set<Dependente> dependentes = new HashSet();
 
 	public Funcionario(String nome, String cpf, LocalDate dataNascimento, double salarioBruto)
