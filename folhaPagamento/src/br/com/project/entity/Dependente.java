@@ -13,6 +13,8 @@ public class Dependente extends Pessoa {
 	public Dependente(String nome, String cpf, LocalDate dataNascimento, Parentesco parentesco)
 			throws DependenteException {
 
+		
+		
 		super(nome, cpf);
 		this.parentesco = parentesco;
 		this.data = dataNascimento;
